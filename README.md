@@ -9,7 +9,7 @@ python ingest.py --pdf statement.pdf --store ./store
 python chat.py --store ./store
 ```
 
-Project 3 of the AI Engineer in 3 Months track. Builds on project 1 (PDF
+Project 3 Builds on project 1 (PDF
 extraction) and is evaluated by project 2's harness (prompt-lab).
 
 ## How it works
@@ -35,7 +35,7 @@ relevant is retrieved, instead of improvising.
 
 ## Exercises completed
 
-- [ ] Chunk-size experiment measured with the prompt-lab harness
+- [x] Chunk-size experiment measured with the prompt-lab harness
 - [ ] Paragraph-aware chunker
 - [ ] min_score tuned on answerable vs unanswerable questions
 - [ ] Hybrid keyword + vector retrieval

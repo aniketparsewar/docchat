@@ -17,13 +17,13 @@ chunk, what cosine similarity does, and why the vector DB is not magic.
 ## Weekend task list
 
 ### Day 1 — Make it run
-- [ ] Setup: venv, requirements, `.env` (same key as before)
-- [ ] `python ingest.py --pdf <your.pdf> --store ./store` — watch the stages print
-- [ ] Read `src/chunker.py`, `src/embeddings.py`, `src/store.py` until you can
+- [x] Setup: venv, requirements, `.env` (same key as before)
+- [X] `python ingest.py --pdf <your.pdf> --store ./store` — watch the stages print
+- [x] Read `src/chunker.py`, `src/embeddings.py`, `src/store.py` until you can
       explain: why chunk, what a vector is, what cosine similarity measures
-- [ ] `python chat.py --store ./store` — ask 5 questions: 3 answerable,
+- [x] `python chat.py --store ./store` — ask 5 questions: 3 answerable,
       2 unanswerable. Watch the similarity scores and the refusal kick in
-- [ ] Exercises in `src/chunker.py` (try 200 vs 1000 token chunks — feel the
+- [x] Exercises in `src/chunker.py` (try 200 vs 1000 token chunks — feel the
       difference before measuring it)
 
 ### Day 2 — Make it yours
