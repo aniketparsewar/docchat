@@ -15,14 +15,25 @@ def main():
     parser.add_argument("--store", required=True, help="Directory for the vector store")
     parser.add_argument("--chunk-tokens", type=int, default=500)
     parser.add_argument("--overlap-tokens", type=int, default=50)
+    parser.add_argument("--chunk-mode", choices=["tokens", "paragraphs"],
+                    default="tokens",
+                    help="tokens: fixed windows (may cut mid-line); "
+                         "paragraphs: structural blocks packed whole")
     args = parser.parse_args()
 
     text, pages = pdf_reader.extract_text(args.pdf)
     print(f"Extracted {len(text)} chars from {pages} pages.")
 
-    chunks = chunker.chunk_text(text, args.chunk_tokens, args.overlap_tokens)
-    print(f"Split into {len(chunks)} chunks "
-          f"({args.chunk_tokens} tokens, {args.overlap_tokens} overlap).")
+    if args.chunk_mode == "paragraphs":
+        chunks = chunker.chunk_paragraphs(text, args.chunk_tokens,
+                                          overlap_blocks=1)
+        print(f"Split into {len(chunks)} chunks "
+              f"({args.chunk_tokens} tokens, paragraph-aware).")
+    else:
+        chunks = chunker.chunk_text(text, args.chunk_tokens,
+                                    args.overlap_tokens)
+        print(f"Split into {len(chunks)} chunks "
+              f"({args.chunk_tokens} tokens, {args.overlap_tokens} overlap).")
 
     total_tokens = sum(costs.count_tokens(c) for c in chunks)
     print(f"Embedding {total_tokens} tokens "
