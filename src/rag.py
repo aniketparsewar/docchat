@@ -22,7 +22,11 @@ Rules:
 - Cite every factual claim with the excerpt number, like [1] or [2].
 - If the excerpts don't contain the answer, say so plainly. Do not use
   outside knowledge for facts, though you may explain terms in plain words.
+- When the question asks for all matching items, list every one found in
+  the excerpts, one per line. Never summarize a list or stop after the
+  first few.
 - Keep answers short."""
+
 
 STOPWORDS = frozenset(
     "a an the is are was were be been being what when where which who whom "

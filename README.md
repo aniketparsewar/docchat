@@ -36,7 +36,7 @@ relevant is retrieved, instead of improvising.
 ## Exercises completed
 
 - [x] Chunk-size experiment measured with the prompt-lab harness
-- [ ] Paragraph-aware chunker
-- [ ] min_score tuned on answerable vs unanswerable questions
-- [ ] Hybrid keyword + vector retrieval
+- [x] Paragraph-aware chunker
+- [x] min_score tuned on answerable vs unanswerable questions
+- [x] Hybrid keyword + vector retrieval
 - [ ] STRETCH: swapped numpy store for ChromaDB
