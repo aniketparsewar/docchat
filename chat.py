@@ -17,6 +17,9 @@ def main():
                         help="How many chunks to retrieve")
     parser.add_argument("--min-score", type=float, default=0.25,
                         help="Refuse below this similarity score")
+    parser.add_argument("--hybrid", action="store_true",
+                    help="Fuse vector similarity with keyword overlap (RRF)")
+
     args = parser.parse_args()
 
     chunks, matrix = store.load(args.store)
@@ -32,7 +35,8 @@ def main():
         if not question:
             break
         result = rag.answer(question, chunks, matrix,
-                            top_k=args.top_k, min_score=args.min_score)
+                    top_k=args.top_k, min_score=args.min_score,
+                    hybrid=args.hybrid)
         total_cost += result["cost_usd"]
         print(f"\ndoc> {result['answer']}")
         if not result["refused"]:
