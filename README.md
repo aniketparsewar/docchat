@@ -25,13 +25,34 @@ vector database — a vector DB is, at its core, a matrix plus cosine
 similarity. The `min_score` threshold makes the pipeline refuse when nothing
 relevant is retrieved, instead of improvising.
 
-## What I learned
 
-- Embeddings: what they are and why similar meanings land near each other
-- Chunking: size/overlap tradeoffs and why they matter for retrieval
-- Cosine similarity as the retrieval workhorse
-- Grounded generation: citations + refusal threshold as hallucination defenses
-- Cost anatomy of RAG: one-time embedding cost vs per-question cost
+**Chunk size trades precision against recall; the question shape decides.**
+200-token chunks scored higher on point lookups (0.49 vs 0.47) — pure chunks
+align sharply with focused questions. But they scattered the Amazon
+transactions across chunks, so "list all" failed. No universal winner.
+
+**The min-score threshold is coupled to the chunking.** store-200 needed
+0.367, store-500 needed 0.328, store-1000 (a single chunk) had no separable
+threshold at all. A tuned threshold doesn't survive re-chunking — the
+prompt-level refusal is the real safety net, min-score is the backstop.
+
+**Retrieval recall ≠ answer recall.** Hybrid retrieval (Reciprocal Rank Fusion
+of vector + keyword rankings) provably surfaced all three Amazon transactions
+in the top-3 chunks — and the model still dropped one in generation, 3/3
+times. Fixing the index wasn't enough; an explicit enumeration instruction in
+the system prompt fixed it. Measure the answer, not just the retrieval.
+
+**Evals need repeats.** Single runs were noisy: the same store passed
+merchant-listing one run and failed the next. `--repeat 3` with majority vote
+separates solid passes (3/3), solid failures (0/3), and flaky tests — and the
+stability table tells you which is which.
+
+**LLM judges fail three ways.** Noise (flaky verdicts on identical-quality
+answers), systematic misreading (failing an answer the rubric explicitly
+passes), and hallucinated verdicts (claiming a listed transaction is missing).
+Rule: mechanical checks where truth is mechanical, judges only where
+subjectivity is unavoidable.
+
 
 ## Exercises completed
 
